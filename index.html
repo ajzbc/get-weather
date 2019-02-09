@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <h1>get-weather</h1>
+    <p class="description">Get the weather based on your IP address using way too many APIs</p>
+    <p class="description">Don't refresh too much or you'll get some wonky data :)</p>
+
+    <p class="status">It is <b id="temp">[temp]</b> in <b id="city">[city]</b> as of <b id="time">[time]</b></p>
+
+    <p>GET <a href= "https://api.ipify.org?format=json" target="_blank">https://api.ipify.org?format=json</a></p>
+    <p class="final">IP address: <b id="ipOutput">[ip]</b></p><br>
+
+    <p>GET <a id="latlonOutput">[link]</a></p>
+    <p class="final">Latitude: <b id="lat">[lat]</b></p>
+    <p class="final">Longitude: <b id="lon">[lon]</b></p><br>
+
+    <p>GET <a id="weatherOutput">[link]</a></p>
+    <p class="final">Temperature: <b id="tempOutput">[celsius]</b> converted to <b id="fahrenOutput">[fahrenheit]</b></p>
+    <p class="final">City: <b id="cityOutput">[city]</b></p>
+    <p class="final">Timestamp: <b id="timeOutput">[timestamp]</b> converted to <b id="formatOutput">[formatted time]</b></p><br><br>
+
+    <p class="description">Check out this poorly written code on <a href="https://github.com/ajzbc/get-weather" target="_blank">github</a></p>
+</body>
+</html>
