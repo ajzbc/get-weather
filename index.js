@@ -1,78 +1,72 @@
-var ipifyURL = "https://api.ipify.org?format=json"
-var jsonbinURL = "https://api.jsonbin.io/g/"
-var weatherURL = "https://fcc-weather-api.glitch.me/api/current?"
+let ipifyURL = 'https://api.ipify.org?format=json';
+let jsonbinURL = 'https://api.jsonbin.io/g/';
+let weatherURL = 'https://fcc-weather-api.glitch.me/api/current?';
 
-fetch(ipifyURL).then(response => {
-    return response.json();
-}).then(ipify => {
-    var ip = ipify.ip;
+(async () => {
 
-    var ipOutput = document.getElementById("ipOutput");
-    ipOutput.innerHTML = ip;
+    try {
 
-    fetch(jsonbinURL + ip).then(response => {
-        return response.json();
-    }).then(jsonbin => {
-    
-        var lat = jsonbin.data.ll[0];
-        var lon = jsonbin.data.ll[1];
+        const requestIP = await fetch(ipifyURL);
+        const { ip } = await requestIP.json();
 
-        var latlonOutput = document.getElementById("latlonOutput");
-        latlonOutput.innerHTML = jsonbinURL + "<b>" + ip + "</b>";
-        latlonOutput.href = jsonbinURL + ip;
-        latlonOutput.target = "_blank";
+        const ipOutput = document.getElementById('ipOutput');
+        ipOutput.innerHTML = ip;
 
-        var latOut = document.getElementById("lat");
+        const requestLatLon = await fetch(`${jsonbinURL}${ip}`);
+        const { data: { ll } } = await requestLatLon.json();
+
+        const lat = ll[0];
+        const lon = ll[1];
+
+        const latlonOutput = document.getElementById('latlonOutput');
+        latlonOutput.innerHTML = `${jsonbinURL}<b>${ip}</b>`;
+        latlonOutput.href = `${jsonbinURL}${ip}`;
+        latlonOutput.target = '_blank';
+
+        const latOut = document.getElementById('lat');
         latOut.innerHTML = lat;
 
-        var lonOut = document.getElementById("lon");
-        lonOut.innerHTML = lon;
+        const lonOut = document.getElementById('lon');
+        lonOut.innerHTML = lon; 
 
-        fetch(weatherURL + "lat=" + lat + "&lon=" + lon).then(response => {
-            return response.json();
-        }).then(weather => {
+        const requestWeather = await fetch(`${weatherURL}lat=${lat}&lon=${lon}`);
+        const { dt, main: { temp }, name } = await requestWeather.json();
         
-            var temp = document.getElementById("temp");
-            var f = ((weather.main.temp)*(9/5)) + 32;
-            temp.innerHTML = f + "°F";
+        const temperature = document.getElementById('temp');
+        let f = ((temp) * (9/5)) + 32;
+        temperature.innerHTML = `${f}°F`;
 
-            var city = document.getElementById("city");
-            city.innerHTML = weather.name;
+        let city = document.getElementById('city');
+        city.innerHTML = name;
 
-            var time = document.getElementById("time");
-            var date = new Date(weather.dt *1000);
-            var convert  = date.toLocaleString()
-            var format = convert.split(" ");
-            time.innerHTML = format[1] + " " + format[2];
+        const time = document.getElementById('time');
+        let date = new Date(dt * 1000);
+        let convert  = date.toLocaleString()
+        let format = convert.split(' ');
+        time.innerHTML = `${format[1]} ${format[2]}`;
 
-            var weatherOutput = document.getElementById("weatherOutput");
-            weatherOutput.innerHTML = weatherURL + "lat=<b>" + lat + "</b>&lon=<b>" + lon + "</b>";
-            weatherOutput.href = weatherURL + "lat=" + lat + "&lon=" + lon;
-            weatherOutput.target = "_blank";
+        const weatherOutput = document.getElementById('weatherOutput');
+        weatherOutput.innerHTML = `${weatherURL}lat=<b>${lat}</b>&lon=<b>${lon}</b>`;
+        weatherOutput.href = `${weatherURL}lat=${lat}&lon=${lon}`;
+        weatherOutput.target = '_blank';
 
-            var tempOutput = document.getElementById("tempOutput");
-            tempOutput.innerHTML = weather.main.temp + "°C";
+        const tempOutput = document.getElementById('tempOutput');
+        tempOutput.innerHTML = `${temp}°C`;
 
-            var fahrenOutput = document.getElementById("fahrenOutput");
-            fahrenOutput.innerHTML = f + "°F"
+        const fahrenOutput = document.getElementById('fahrenOutput');
+        fahrenOutput.innerHTML = `${f}°F`;
 
-            var cityOutput = document.getElementById("cityOutput");
-            cityOutput.innerHTML = weather.name;
+        const cityOutput = document.getElementById('cityOutput');
+        cityOutput.innerHTML = name;
 
-            var timeOutput = document.getElementById("timeOutput");
-            timeOutput.innerHTML = weather.dt;
+        const timeOutput = document.getElementById('timeOutput');
+        timeOutput.innerHTML = dt;
 
-            var formatOutput = document.getElementById("formatOutput");
-            formatOutput.innerHTML = format[1] + " " + format[2];
-        
-        }).catch(err => {
-            console.log(err);
-        });
-    
-    }).catch(err => {
-        console.log(err);
-    });
+        const formatOutput = document.getElementById('formatOutput');
+        formatOutput.innerHTML = `${format[1]} ${format[2]}`;
+            
+    } catch (error) {
+        console.log(error);
+    }
 
-}).catch(err => {
-    console.log(err);
-});
+})();
